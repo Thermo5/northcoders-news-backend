@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 
-
 const articleRouter = require('./article-router')
 const topicRouter = require('./topic-router')
 const userRouter = require('./user-router')
