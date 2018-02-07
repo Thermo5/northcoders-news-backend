@@ -61,5 +61,17 @@ describe('/api', () => {
         });
     });
   });
+  describe('/topics/football/articles', () => {
+    it('GET returns an object of the article', () => {
+      return request
+        .get('/api/topics/football/articles')
+        .expect(200)
+        .then((res) => {
+          expect(res.body[0]).to.be.an('object');
+          expect(Object.keys(res.body[0]).length).to.be.eql(3);
+        });
+    });
+  });
+
 })
 })
