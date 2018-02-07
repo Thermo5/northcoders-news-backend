@@ -5,7 +5,8 @@
   "main": "config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +18,16 @@
     "log4js": "^1.0.1",
     "moment": "^2.17.0",
     "mongoose": "^4.7.0",
+    "nodemon": "^1.14.12",
     "underscore": "^1.8.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thermo5/BE-FT-northcoders-news.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Thermo5/BE-FT-northcoders-news/issues"
+  },
+  "homepage": "https://github.com/Thermo5/BE-FT-northcoders-news#readme"
 }
