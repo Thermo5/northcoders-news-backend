@@ -20,5 +20,23 @@ function getCommentsByArticle(req, res, next) {
     .catch(next)
 }
 
+function postCommentToArticle(req, res, next) {
+  const articleId = req.params.article_id;
+  Article.find({ _id: articleId })
+    .then((article) => {
+      let comment = new Comment({
+        body: req.body.body,
+        belongs_to: article[0]._id,
+        created_by: req.body.created_by,
+        votes: 0,
+        created_at: Date.now()
+      })
+      return comment.save()
+    })
+    .then((comment) => res.status(201).json(comment))
+    .catch(next)
+}
 
-module.exports = { getAllArticles, getCommentsByArticle }
+
+
+module.exports = { getAllArticles, getCommentsByArticle, postCommentToArticle }
