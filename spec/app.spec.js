@@ -107,6 +107,5 @@ describe('API endpoints', () => {
           })
       });
     });
-
   })
 })
