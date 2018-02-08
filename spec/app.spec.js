@@ -51,7 +51,7 @@ describe('API endpoints', () => {
       });
     });
     describe('/users', () => {
-      it('GET returns an array of the users', () => {
+      it('GET returns an object of the users', () => {
         return request
           .get('/api/users/northcoder')
           .expect(200)
@@ -62,7 +62,7 @@ describe('API endpoints', () => {
       });
     });
     describe('/topics/football/articles', () => {
-      it('GET returns an object of the article', () => {
+      it('GET returns an object of the articles', () => {
         return request
           .get('/api/topics/football/articles')
           .expect(200)
@@ -79,7 +79,7 @@ describe('API endpoints', () => {
           .expect(200)
           .then((res) => {
             expect(res.body).to.be.an('array');
-            expect(res.body.length).to.be.eql(2);
+            expect(res.body.length).to.be.eql(2);                             //number of comments returned
             expect(res.body[0]).to.be.an('object');
             expect(Object.keys(res.body[0]).length).to.be.eql(6);
           })
@@ -143,7 +143,6 @@ describe('API endpoints', () => {
           .get(`/api/comments/${docs.comments[0]._id}`)
           .expect(200)
           .then((res) => {
-            
             expect(res.body).to.be.an('object');
             expect(res.body.votes).to.be.eql(0);
           })
@@ -153,7 +152,6 @@ describe('API endpoints', () => {
           .put(`/api/comments/${docs.comments[0]._id}?vote=up`)
           .expect(200)
           .then((res) => {
-            console.log(res.body, 'votes')
             expect(res.body).to.be.an('object');
             expect(res.body.votes).to.be.eql(1);
           })
@@ -168,8 +166,41 @@ describe('API endpoints', () => {
           })
       })
     });
+    describe('/comments/:comment_id', () => {   //delete comment
+      it('GET comment', () => {
+        return request
+          .get(`/api/comments/${docs.comments[0]._id}`)
+          .expect(200)
+          .then((res) => {
+            //console.log(res.body)
+            expect(res.body).to.be.an('object');
+          })
+      });
 
-
-
+      it('DELETE comment ', () => {
+        return request
+          .get(`/api/articles/${docs.articles[0]._id}/comments`)
+          .then((res) => {
+            console.log(res.body.length, 'inital length check')
+            expect(res.body.length).to.be.eql(2);
+          })
+          .then(() => {
+            return request
+              .delete(`/api/comments/${docs.comments[0]._id}`)
+              .expect(200)
+          })
+          .then((res) => {
+            console.log(res.body)
+          })
+          .then(() => {
+            return request
+              .get(`/api/articles/${docs.articles[0]._id}/comments`)
+          })
+          .then((res) => {
+            console.log(res.body.length, 'after delete length')
+            expect(res.body.length).to.be.eql(1);
+          })
+      })
+    });
   })
 })
