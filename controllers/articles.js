@@ -5,14 +5,14 @@ const qs = require('querystring')
 
 function getAllArticles(req, res, next) {
   Article.find().lean()
-    .then((articles) => res.json(articles))
+    .then((articles) => res.json({articles}))
     .catch(next)
 }
 
 function getArticleById(req, res, next) {
   const articleId = req.params.article_id;
   Article.findOne({ _id: articleId })
-    .then((article) => res.json(article))
+    .then((article) => res.json({article}))
     .catch(next)
 }
 
@@ -20,7 +20,7 @@ function getArticleById(req, res, next) {
 function getCommentsByArticle(req, res, next) {
   const articleId = req.params.article_id;
   Comment.find({ belongs_to: articleId }, { __v: false })
-    .then((comments) => res.json(comments))
+    .then((comments) => res.json({comments}))
     .catch(next)
 }
 

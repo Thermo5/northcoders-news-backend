@@ -26,14 +26,14 @@ describe('API endpoints', () => {
 
   describe('/api', () => {
     describe('/topics', () => {
-      it('GET returns an array of the topics', () => {
+      it('GET returns an object of the topics', () => {
         return request
           .get('/api/topics')
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('array');
-            expect(res.body[0]).to.be.an('object');
-            expect(res.body.length).to.be.eql(3);
+            expect(res.body).to.be.an('object');
+            expect(res.body.topics[0]).to.be.an('object');
+            expect(res.body.topics.length).to.be.eql(3);
           });
       });
     });
@@ -43,10 +43,10 @@ describe('API endpoints', () => {
           .get('/api/articles')
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('array');
-            expect(res.body[0]).to.be.an('object');
-            expect(res.body.length).to.be.eql(2);
-            expect(Object.keys(res.body[0]).length).to.be.eql(6);
+            expect(res.body).to.be.an('object');
+            expect(res.body.articles[0]).to.be.an('object');
+            expect(res.body.articles.length).to.be.eql(2);
+            expect(Object.keys(res.body.articles[0]).length).to.be.eql(6);
           });
       });
     });
@@ -56,8 +56,8 @@ describe('API endpoints', () => {
           .get('/api/users/northcoder')
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('object');
-            expect(Object.keys(res.body).length).to.be.eql(4);
+            expect(res.body.users).to.be.an('object');
+            expect(Object.keys(res.body.users).length).to.be.eql(4);
           });
       });
     });
@@ -67,8 +67,9 @@ describe('API endpoints', () => {
           .get('/api/topics/football/articles')
           .expect(200)
           .then((res) => {
-            expect(res.body[0]).to.be.an('object');
-            expect(Object.keys(res.body[0]).length).to.be.eql(3);
+            console
+            expect(res.body.articles[0]).to.be.an('object');
+            expect(Object.keys(res.body.articles[0]).length).to.be.eql(3);
           });
       });
     });
@@ -78,10 +79,10 @@ describe('API endpoints', () => {
           .get(`/api/articles/${docs.articles[0]._id}/comments`)
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('array');
-            expect(res.body.length).to.be.eql(2);                             //number of comments returned
-            expect(res.body[0]).to.be.an('object');
-            expect(Object.keys(res.body[0]).length).to.be.eql(6);
+            expect(res.body).to.be.an('object');
+            expect(res.body.comments.length).to.be.eql(2);                             //number of comments returned
+            expect(res.body.comments[0]).to.be.an('object');
+            expect(Object.keys(res.body.comments[0]).length).to.be.eql(6);
           })
       });
       it('POST adds a new comment to the article', () => {
@@ -103,7 +104,7 @@ describe('API endpoints', () => {
               .expect(200)
           })
           .then(res => {
-            expect(res.body.length).to.be.eql(3);
+            expect(res.body.comments.length).to.be.eql(3);
           })
       });
     });
@@ -115,20 +116,20 @@ describe('API endpoints', () => {
           .expect(200)
           .then((res) => {
             expect(res.body).to.be.an('object');
-            expect(res.body.votes).to.be.eql(0);
+            expect(res.body.article.votes).to.be.eql(0);
           })
-      });
-      it('PUT add one to the article vote', () => {
-        return request
+        });
+        it('PUT add one to the article vote', () => {
+          return request
           .put(`/api/articles/${docs.articles[0]._id}?vote=up`)
           .expect(200)
           .then((res) => {
             expect(res.body).to.be.an('object');
             expect(res.body.votes).to.be.eql(1);
           })
-      })
-      it('PUT sub one to the article vote', () => {
-        return request
+        })
+        it('PUT sub one to the article vote', () => {
+          return request
           .put(`/api/articles/${docs.articles[0]._id}?vote=down`)
           .expect(200)
           .then((res) => {
@@ -181,8 +182,8 @@ describe('API endpoints', () => {
         return request
           .get(`/api/articles/${docs.articles[0]._id}/comments`)
           .then((res) => {
-            console.log(res.body.length, 'inital length check')
-            expect(res.body.length).to.be.eql(2);
+            console.log(res.body.comments.length, 'inital length check')
+            expect(res.body.comments.length).to.be.eql(2);
           })
           .then(() => {
             return request
@@ -197,8 +198,8 @@ describe('API endpoints', () => {
               .get(`/api/articles/${docs.articles[0]._id}/comments`)
           })
           .then((res) => {
-            console.log(res.body.length, 'after delete length')
-            expect(res.body.length).to.be.eql(1);
+            console.log(res.body.comments.length, 'after delete length')
+            expect(res.body.comments.length).to.be.eql(1);
           })
       })
     });
