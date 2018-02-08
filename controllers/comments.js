@@ -30,7 +30,7 @@ function voteOnComments(req, res, next) {
       return comment.save()
     })
     .then((item) => {
-      res.json({ item })
+      res.json( item )
       console.log('comment changed')
     })
     .catch(next)

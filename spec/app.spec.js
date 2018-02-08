@@ -137,6 +137,37 @@ describe('API endpoints', () => {
           })
       })
     });
+    describe('/comments/:comment_id', () => {
+      it('GET the comment vote', () => {
+        return request
+          .get(`/api/comments/${docs.comments[0]._id}`)
+          .expect(200)
+          .then((res) => {
+            
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(0);
+          })
+      });
+      it('PUT add one to the comment vote', () => {
+        return request
+          .put(`/api/comments/${docs.comments[0]._id}?vote=up`)
+          .expect(200)
+          .then((res) => {
+            console.log(res.body, 'votes')
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(1);
+          })
+      })
+      it('PUT sub one to the comment vote', () => {
+        return request
+          .put(`/api/comments/${docs.comments[0]._id}?vote=down`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(-1);
+          })
+      })
+    });
 
 
 
