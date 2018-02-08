@@ -4,6 +4,14 @@ const Comment = require('../models/comments')
 const url = require('url')
 const qs = require('querystring')
 
+function getCommentById(req, res, next) {
+  const commentId = req.params.comment_id;
+  Comment.findOne({ _id: commentId })
+    .then((comment) => res.json(comment))
+    .catch(next)
+}
+
+
 function voteOnComments(req, res, next) {
   const commentId = req.params.comment_id
   const reqUrl = url.parse(req.url);
@@ -39,4 +47,4 @@ function deleteComment(req, res, next) {
     })
 };
 
-module.exports = { voteOnComments, deleteComment }
+module.exports = {  getCommentById, voteOnComments, deleteComment,  }

@@ -9,13 +9,17 @@ function getAllArticles(req, res, next) {
     .catch(next)
 }
 
-function getCommentsByArticle(req, res, next) {
+function getArticleById(req, res, next) {
   const articleId = req.params.article_id;
   Article.findOne({ _id: articleId })
-    .then((article) => {
-      const idOfArticle = article._id;
-      return Comment.find({ belongs_to: idOfArticle }, { __v: false })
-    })
+    .then((article) => res.json(article))
+    .catch(next)
+}
+
+
+function getCommentsByArticle(req, res, next) {
+  const articleId = req.params.article_id;
+  Comment.find({ belongs_to: articleId }, { __v: false })
     .then((comments) => res.json(comments))
     .catch(next)
 }
@@ -61,4 +65,4 @@ function articleVote(req, res, next) {
 }
 
 
-module.exports = { getAllArticles, getCommentsByArticle, postCommentToArticle, articleVote }
+module.exports = { getAllArticles, getArticleById, getCommentsByArticle, postCommentToArticle, articleVote }

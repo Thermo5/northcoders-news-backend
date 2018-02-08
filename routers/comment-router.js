@@ -1,7 +1,11 @@
 
 const express = require('express')
 const router = express.Router()
-const { voteOnComments, deleteComment } = require('../controllers/comments')
+const { getCommentById, voteOnComments, deleteComment } = require('../controllers/comments')
+
+
+
+router.get('/:comment_id', getCommentById)
 
 router.put('/:comment_id', voteOnComments)
 
