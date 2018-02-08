@@ -108,7 +108,36 @@ describe('API endpoints', () => {
       });
     });
 
-  
+    describe('/articles/:article_id', () => {
+      it('GET the article vote', () => {
+        return request
+          .get(`/api/articles/${docs.articles[0]._id}`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(0);
+          })
+      });
+      it('PUT add one to the article vote', () => {
+        return request
+          .put(`/api/articles/${docs.articles[0]._id}?vote=up`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(1);
+          })
+      })
+      it('PUT sub one to the article vote', () => {
+        return request
+          .put(`/api/articles/${docs.articles[0]._id}?vote=down`)
+          .expect(200)
+          .then((res) => {
+            expect(res.body).to.be.an('object');
+            expect(res.body.votes).to.be.eql(-1);
+          })
+      })
+    });
+
 
 
   })

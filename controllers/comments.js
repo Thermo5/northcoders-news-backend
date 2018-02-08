@@ -11,12 +11,10 @@ function getCommentById(req, res, next) {
     .catch(next)
 }
 
-
 function voteOnComments(req, res, next) {
   const commentId = req.params.comment_id
   const reqUrl = url.parse(req.url);
   const queryString = qs.parse(reqUrl.query)
-
   const upVote = queryString.vote === "up";
   Comment.findOne({ _id: commentId })
     .then((comment) => {
