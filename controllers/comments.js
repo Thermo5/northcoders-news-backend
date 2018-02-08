@@ -43,6 +43,7 @@ function deleteComment(req, res, next) {
     .then((comment) => {
       res.json(`comment ${comment._id} deleted`)
     })
+    .catch(next)
 };
 
 module.exports = {  getCommentById, voteOnComments, deleteComment,  }
