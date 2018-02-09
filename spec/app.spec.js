@@ -43,10 +43,11 @@ describe('API endpoints', () => {
           .get('/api/articles')
           .expect(200)
           .then((res) => {
+
             expect(res.body).to.be.an('object');
             expect(res.body.articles[0]).to.be.an('object');
             expect(res.body.articles.length).to.be.eql(2);
-            expect(Object.keys(res.body.articles[0]).length).to.be.eql(6);
+            expect(Object.keys(res.body.articles[0]).length).to.be.eql(6);    //equal
           });
       });
     });
@@ -67,7 +68,6 @@ describe('API endpoints', () => {
           .get('/api/topics/football/articles')
           .expect(200)
           .then((res) => {
-            console
             expect(res.body.articles[0]).to.be.an('object');
             expect(Object.keys(res.body.articles[0]).length).to.be.eql(3);
           });
@@ -95,8 +95,9 @@ describe('API endpoints', () => {
           .send(newComment)
           .expect(201)
           .then((res) => {
+                                                                      //needs a key of comment
             expect(res.body).to.be.an('object');
-            expect(Object.keys(res.body).length).to.be.eql(7);
+            expect(Object.keys(res.body).length).to.be.eql(7);        //add more tests on the post
           })
           .then(() => {
             return request
@@ -139,7 +140,7 @@ describe('API endpoints', () => {
       })
     });
     describe('/comments/:comment_id', () => {
-      it('GET the comment vote', () => {
+      it('GET the comment vote', () => {                  //this is not req
         return request
           .get(`/api/comments/${docs.comments[0]._id}`)
           .expect(200)
@@ -153,7 +154,7 @@ describe('API endpoints', () => {
           .put(`/api/comments/${docs.comments[0]._id}?vote=up`)
           .expect(200)
           .then((res) => {
-            expect(res.body).to.be.an('object');
+            expect(res.body).to.be.an('object');                    //res.body.comment
             expect(res.body.votes).to.be.eql(1);
           })
       })
@@ -191,7 +192,8 @@ describe('API endpoints', () => {
               .expect(200)
           })
           .then((res) => {
-            console.log(res.body)
+            expect(res.body).to.be.a('string')      //all test req for delete
+            console.log(res.body)         //
           })
           .then(() => {
             return request

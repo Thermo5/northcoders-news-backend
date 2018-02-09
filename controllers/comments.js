@@ -13,8 +13,10 @@ function getCommentById(req, res, next) {
 
 function voteOnComments(req, res, next) {
   const commentId = req.params.comment_id
+  if (commentId.length !== 24) return next({ statusCode: 404, message: `Article ${commentId} not valid length` })
   const reqUrl = url.parse(req.url);
   const queryString = qs.parse(reqUrl.query)
+  if ((queryString.vote !== "up") && (queryString.vote !== "down")) return next({ statusCode: 404, message: `Vote ${queryString.vote} invalid` })
   const upVote = queryString.vote === "up";
   Comment.findOne({ _id: commentId })
     .then((comment) => {
@@ -39,8 +41,11 @@ function voteOnComments(req, res, next) {
 
 function deleteComment(req, res, next) {
   const commentId = req.params.comment_id;
+  if (commentId.length !== 24) return next({ statusCode: 404, message: `Article ${commentId} not valid length` })
   Comment.findOneAndRemove({ _id: commentId })
     .then((comment) => {
+      if (comment === null) return next({ statusCode: 404, message: `Comment ${commentId} not found` })
+      console.log(comment)
       res.json(`comment ${comment._id} deleted`)
     })
     .catch(next)
