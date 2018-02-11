@@ -1,5 +1,5 @@
 
-
+const Article = require('../models/articles')
 const User = require('../models/users')
 const url = require('url')
 const qs = require('querystring')
@@ -17,8 +17,19 @@ function getUser(req, res, next) {
       if (!users) return next({ statusCode: 404, message: `User ${userName} not found` })
       return res.json({users})})
     .catch(next)
-
 }
 
 
-module.exports = { getUser, getAllUsers }
+function getArticlesByUser(req, res, next) {
+  const userId = req.params.user_id;
+  console.log(userId)
+  Article.find({ created_by: userId }, { __v: false })
+    .then((articles) => {
+      console.log(articles)
+      return res.json({ articles })
+    })
+    .catch(next)
+}
+
+
+module.exports = { getUser, getAllUsers, getArticlesByUser }

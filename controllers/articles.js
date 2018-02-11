@@ -80,4 +80,8 @@ function articleVote(req, res, next) {
 }
 
 
+
+
+
+
 module.exports = { getAllArticles, getArticleById, getCommentsByArticle, postCommentToArticle, articleVote }

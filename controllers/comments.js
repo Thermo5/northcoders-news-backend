@@ -51,4 +51,4 @@ function deleteComment(req, res, next) {
     .catch(next)
 };
 
-module.exports = {  getCommentById, voteOnComments, deleteComment,  }
+module.exports = {  getCommentById, voteOnComments, deleteComment  }
