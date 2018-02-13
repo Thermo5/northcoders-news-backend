@@ -22,10 +22,8 @@ function getUser(req, res, next) {
 
 function getArticlesByUser(req, res, next) {
   const userId = req.params.user_id;
-  console.log(userId)
   Article.find({ created_by: userId }, { __v: false })
     .then((articles) => {
-      console.log(articles)
       return res.json({ articles })
     })
     .catch(next)

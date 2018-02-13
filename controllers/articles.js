@@ -14,7 +14,6 @@ function getArticleById(req, res, next) {
   const articleId = req.params.article_id;
   if (articleId.length !== 24) return next({ statusCode: 404, message: `Article ${articleId} not valid length` })
   Article.findOne({ _id: articleId })
-  
     .then((article) => {
       if (!article) return next({ statusCode: 404, message: `Article empty` })
       return res.json({article})})
@@ -47,7 +46,6 @@ function postCommentToArticle(req, res, next) {
         created_at: Date.now()
       })
       if (comment.body === "") return next({ statusCode: 404, message: `Comment required` })
-      //if (comment.created_by === "") return next({ statusCode: 404, message: `User name required` })
       return comment.save()
     })
     .then((comment) => res.status(201).json(comment))
