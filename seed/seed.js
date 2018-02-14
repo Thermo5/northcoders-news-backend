@@ -12,7 +12,7 @@ var moment = require('moment');
 var DBs = require('../config').DB;
 let mlab = require('../config').DB.dev;
 
-mongoose.connect(DBs.dev, function (err) {
+mongoose.connect(mlab, function (err) {
 	if (!err) {
 		logger.info(`connected to database ${DBs.dev}`);
 		mongoose.connection.db.dropDatabase();
