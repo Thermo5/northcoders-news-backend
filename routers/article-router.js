@@ -1,17 +1,17 @@
-const express = require('express')
-const router = express.Router()
-const { getAllArticles, getArticleById, getCommentsByArticle, postCommentToArticle, articleVote } = require('../controllers/articles')
+const express = require('express');
+const router = express.Router();
+const { getAllArticles, getArticleById, getCommentsByArticle, postCommentToArticle, articleVote } = require('../controllers/articles');
 
-router.get('/', getAllArticles)
+router.get('/', getAllArticles);
 
-router.get('/:article_id', getArticleById)
+router.get('/:article_id', getArticleById);
 
-router.get('/:article_id/comments', getCommentsByArticle)
+router.get('/:article_id/comments', getCommentsByArticle);
 
-router.post('/:article_id/comments', postCommentToArticle)
+router.post('/:article_id/comments', postCommentToArticle);
 
-router.put('/:article_id', articleVote)
+router.put('/:article_id', articleVote);
 
 
 
-module.exports = router
+module.exports = router;
