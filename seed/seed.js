@@ -10,6 +10,7 @@ var log4js = require('log4js');
 var logger = log4js.getLogger();
 var moment = require('moment');
 var DBs = require('../config').DB;
+let mlab = require('../config').DB.dev;
 
 mongoose.connect(DBs.dev, function (err) {
 	if (!err) {

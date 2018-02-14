@@ -15,7 +15,7 @@ router.use('/*', (req, res) => {
 	res.status(404).send('Page not found');
 });
 
-router.use((err, req, res) => {
+router.use((err, req, res, next) => {
 	res.status(err.statusCode || 500).send(err.message);
 });
 

@@ -3,6 +3,7 @@ const seed = require('../seed/test.seed');
 const app = require('../server');
 const request = require('supertest')(app);
 const mongoose = require('mongoose');
+var DBs = require('../config').DB;
 
 
 
@@ -10,13 +11,15 @@ const mongoose = require('mongoose');
 describe('API endpoints', () => {
 	let docs;
 	beforeEach(function () {
-		return mongoose.connection.dropDatabase()
+		const p = mongoose.connection.readyState === 0 ? mongoose.connect(DBs.test) : Promise.resolve();
+
+		return p
 			.then(() => {
-				return seed();
+				return mongoose.connection.dropDatabase();
 			})
-			.then(({ users, comments, topics, articles }) => {
-				docs = { users, comments, topics, articles };
-				return;
+			.then(seed)
+			.then(usefulDocs => {
+				docs = usefulDocs;
 			});
 	});
 	after(() => {
@@ -69,10 +72,11 @@ describe('API endpoints', () => {
 					.expect(200)
 					.then((res) => {
 						expect(res.body.articles[0]).to.be.an('object');
-						expect(Object.keys(res.body.articles[0]).length).to.be.eql(3);
+						expect(Object.keys(res.body.articles[0]).length).to.be.eql(5);
 					});
 			});
 		});
+		
 		describe('/articles/:article_id/comments', () => {
 			it('GET returns an array of the comments', () => {
 				return request
@@ -80,7 +84,7 @@ describe('API endpoints', () => {
 					.expect(200)
 					.then((res) => {
 						expect(res.body).to.be.an('object');
-						expect(res.body.comments.length).to.be.eql(2);                             //number of comments returned
+						expect(res.body.comments.length).to.be.eql(2);                        
 						expect(res.body.comments[0]).to.be.an('object');
 						expect(Object.keys(res.body.comments[0]).length).to.be.eql(6);
 					});
@@ -95,9 +99,8 @@ describe('API endpoints', () => {
 					.send(newComment)
 					.expect(201)
 					.then((res) => {
-						//needs a key of comment
-						expect(res.body).to.be.an('object');
-						expect(Object.keys(res.body).length).to.be.eql(7);        //add more tests on the post
+						expect(res.body.comment).to.be.an('object');
+						expect(Object.keys(res.body.comment).length).to.be.eql(7);        //add more tests on the post
 					})
 					.then(() => {
 						return request
@@ -140,22 +143,13 @@ describe('API endpoints', () => {
 			});
 		});
 		describe('/comments/:comment_id', () => {
-			it('GET the comment vote', () => {                  //this is not req
-				return request
-					.get(`/api/comments/${docs.comments[0]._id}`)
-					.expect(200)
-					.then((res) => {
-						expect(res.body).to.be.an('object');
-						expect(res.body.votes).to.be.eql(0);
-					});
-			});
 			it('PUT add one to the comment vote', () => {
 				return request
 					.put(`/api/comments/${docs.comments[0]._id}?vote=up`)
 					.expect(200)
 					.then((res) => {
-						expect(res.body).to.be.an('object');                    //res.body.comment
-						expect(res.body.votes).to.be.eql(1);
+						expect(res.body.comments).to.be.an('object');                 
+						expect(res.body.comments.votes).to.be.eql(1);
 					});
 			});
 			it('PUT sub one to the comment vote', () => {
@@ -163,18 +157,17 @@ describe('API endpoints', () => {
 					.put(`/api/comments/${docs.comments[0]._id}?vote=down`)
 					.expect(200)
 					.then((res) => {
-						expect(res.body).to.be.an('object');
-						expect(res.body.votes).to.be.eql(-1);
+						expect(res.body.comments).to.be.an('object');
+						expect(res.body.comments.votes).to.be.eql(-1);
 					});
 			});
 		});
-		describe('/comments/:comment_id', () => {   //delete comment
+		describe('/comments/:comment_id', () => {   
 			it('GET comment', () => {
 				return request
 					.get(`/api/comments/${docs.comments[0]._id}`)
 					.expect(200)
 					.then((res) => {
-						//console.log(res.body)
 						expect(res.body).to.be.an('object');
 					});
 			});
@@ -192,8 +185,7 @@ describe('API endpoints', () => {
 							.expect(200);
 					})
 					.then((res) => {
-						expect(res.body).to.be.a('string');      //all test req for delete
-						console.log(res.body);         //
+						expect(res.body).to.be.a('string');      //all test req for delete       //
 					})
 					.then(() => {
 						return request

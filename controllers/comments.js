@@ -31,8 +31,8 @@ function voteOnComments(req, res, next) {
 			}
 			return comment.save();
 		})
-		.then((item) => {
-			res.json( item );
+		.then((comments) => {
+			res.json( {comments} );
 			console.log('comment changed');
 		})
 		.catch(next);

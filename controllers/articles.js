@@ -15,7 +15,7 @@ function getArticleById(req, res, next) {
 	if (articleId.length !== 24) return next({ statusCode: 404, message: `Article ${articleId} not valid length` });
 	Article.findOne({ _id: articleId })
 		.then((article) => {
-			if (!article) return next({ statusCode: 404, message: 'Article empty' });
+			if (!article) return next({ statusCode: 404, message: `Article ${articleId} not found` });
 			return res.json({article});})
 		.catch(next);
 }
@@ -26,7 +26,7 @@ function getCommentsByArticle(req, res, next) {
 	if (articleId.length !== 24) return next({ statusCode: 404, message: `Article ${articleId} not valid length` });
 	Comment.find({ belongs_to: articleId }, { __v: false })
 		.then((comments) => {
-			if (comments.length === 0) return next({ statusCode: 404, message: 'Comment empty' });
+			if (comments.length === 0) return next({ statusCode: 404, message: `Article ${articleId} not found` });
 			return res.json({comments});})
 		.catch(next);
 }
@@ -36,7 +36,7 @@ function postCommentToArticle(req, res, next) {
 	if (articleId.length !== 24) return next({ statusCode: 404, message: `Article ${articleId} not valid length` });
 	Article.findOne({ _id: articleId })
 		.then((article) => {
-			if (!article) return next({ statusCode: 404, message: `Article ${articleId} returned empty body` });
+			if (!article) return next({ statusCode: 404, message: `Article ${articleId} not found` });
 			console.log(req.body, 'req.body');
 			let comment = new Comment({
 				body: req.body.body,
@@ -48,7 +48,7 @@ function postCommentToArticle(req, res, next) {
 			if (comment.body === '') return next({ statusCode: 404, message: 'Comment required' });
 			return comment.save();
 		})
-		.then((comment) => res.status(201).json(comment))
+		.then((comment) => res.status(201).json({comment}))
 		.catch(next);
 }
 
