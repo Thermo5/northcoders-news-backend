@@ -42,6 +42,14 @@ Run this command in the app directory on the command line.
     npm start
 ```
 
+# Testing
+
+To test the API navigate to the project directory and enter the following command
+
+```npm test```
+
+Testing was carried out using Mocha, Chai and Supertest
+
 
 ## API Routes
 
