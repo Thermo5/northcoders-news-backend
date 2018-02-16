@@ -6,7 +6,7 @@ Northcoders News is a social news aggregation, web content rating, and discussio
 
 To see the project in action please click [here](https://northcoders-news-frontend.herokuapp.com/).
 
-And this is a link to the [API](https://github.com/Thermo5/northcoders-news-backend)
+And this is a link to the [Frontend](https://github.com/Thermo5/northcoders-news-frontend)
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ To run this project you will need to clone it onto your local machine and instal
 
 Navigate to you chosen directory and run the following command in the commandline to clone the package:
 ```
-    git clone https://github.com/Thermo5/northcoders-news-frontend.git
+    git clone https://github.com/Thermo5/northcoders-news-backend.git
 ```
 
 To install all depencency run:
