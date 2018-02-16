@@ -4,7 +4,7 @@ Northcoders News API is a RESTful api which is build using Express.js, Node.js, 
 
 ## Getting Started
 
-And this is a link to the [API](https://northcoders-news-backend.herokuapp.com/api/api)
+And this is a link to the [API](https://northcoders-news-backend.herokuapp.com)
 
 The frontend of this project can be found [here](https://github.com/Thermo5/northcoders-news-frontend).
 
