@@ -12,7 +12,7 @@ The frontend of this project can be found [here](https://github.com/Thermo5/nort
 ## Prerequisites
 
 ```
-    Node.js v8.6.0 or higher
+    Node.js v8.6.0
     npm v5.6.0
     git version 2.14.3
 ```
