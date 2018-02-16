@@ -1,12 +1,13 @@
-# Northcoders News
+# Northcoders News API
 
-Northcoders News is a social news aggregation, web content rating, and discussion website, based on Reddit. Articles are divided into topics and each article has user curated ratings and can be up or down voted using the API. Users can also add comments about an article which can also be up or down voted. A user can add comments and remove any comments which they have added.
+Northcoders News API is a RESTful api which is build using Express.js, Node.js, MongoDB and Mongoose.js. The MongoDB is hosted on mlabs, and the API is deployed through Heroku.
 
 ## Getting Started
 
-To see the project in action please click [here](https://northcoders-news-frontend.herokuapp.com/).
+And this is a link to the [API](https://northcoders-news-backend.herokuapp.com/api/api)
 
-And this is a link to the [Frontend](https://github.com/Thermo5/northcoders-news-frontend)
+The frontend of this project can be found [here](https://github.com/Thermo5/northcoders-news-frontend).
+
 
 ## Prerequisites
 
@@ -28,9 +29,77 @@ To install all depencency run:
     npm install
 ```
 
-Finally to run the app:
+Before starting the project, please open a second shell in your terminal and ensure mongoDB is running with the command:
+
+``` 
+    mongod
+```
+
+Once this is set up, you should be able to start the server. 
+
+Run this command in the app directory on the command line.
 ```
     npm start
 ```
-Once the build process has finished go to [http://localhost:3000/](http://localhost:3000/) in your browser.
+
+
+## API Routes
+
+```
+GET /api/topics
+```
+Get all the topics
+
+```
+GET /api/topics/:topic_id/articles
+```
+Return all the articles for a certain topic
+
+```
+GET /api/articles
+```
+Returns all the articles
+```
+GET /api/articles/:article_id
+```
+Returns a JSON object with the article information for the specified article
+
+```
+GET /api/articles/:article_id/comments
+```
+Get all the comments for an individual article
+
+```
+POST /api/articles/:article_id/comments
+```
+Add a new comment to an article. This route requires a JSON body with a comment key and value pair
+e.g: {"comment": "This is my new comment"}
+
+```
+PUT /api/articles/:article_id
+```
+Increment or Decrement the votes of an article by one. This route requires a vote query of 'up' or 'down'
+e.g: /api/articles/:article_id?vote=up
+
+```
+PUT /api/comments/:comment_id
+```
+Increment or Decrement the votes of a comment by one. This route requires a vote query of 'up' or 'down'
+e.g: /api/comments/:comment_id?vote=down
+
+```
+DELETE /api/comments/:comment_id
+```
+Deletes a comment
+
+```
+GET /api/users
+```
+Returns all users
+
+```
+GET /api/users/:username
+```
+Returns a JSON object with the profile data for the specified user.
+
 
